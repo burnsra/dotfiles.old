@@ -1,0 +1,52 @@
+set -e
+
+DOTFILES_ROOT=$HOME/.dotfiles
+ZSH_ROOT=$HOME/.oh-my-zsh
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+user () {
+  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ""
+  exit
+}
+
+install_dotfiles () {
+  info "installing dotfiles"
+
+  if [ -d "$DOTFILES_ROOT" ];
+  then
+    fail "You already have dotfiles installed. You'll need to remove $DOTFILES_ROOT if you want to install"
+    exit
+  fi
+
+  if [ -d "$ZSH_ROOT" ];
+  then
+    fail "You already have dotfiles installed. You'll need to remove $ZSH_ROOT if you want to install"
+    exit
+  fi
+
+  info "Cloning Dotfiles"
+  hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/dotfiles.git $DOTFILES_ROOT || {
+    fail "git not installed"
+    exit
+  }
+
+  info "Cloning Oh My Zsh"
+  hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/oh-my-zsh.git $ZSH_ROOT || {
+    fail "git not installed"
+    exit
+  }
+}
+
+install_dotfiles
