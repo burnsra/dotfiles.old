@@ -22,7 +22,7 @@ fail () {
 }
 
 install_dotfiles () {
-  info "installing dotfiles"
+  info "Installing dotfiles"
 
   if [ -d "$DOTFILES_ROOT" ];
   then
@@ -36,13 +36,13 @@ install_dotfiles () {
     exit
   fi
 
-  info "Cloning Dotfiles"
+  info "Cloning dotfiles"
   hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/dotfiles.git $DOTFILES_ROOT || {
     fail "git not installed"
     exit
   }
 
-  info "Cloning Oh My Zsh"
+  info "Cloning oh-my-zsh"
   hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/oh-my-zsh.git $ZSH_ROOT || {
     fail "git not installed"
     exit
