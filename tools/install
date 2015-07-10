@@ -36,17 +36,18 @@ install_dotfiles () {
     exit
   fi
 
-  info "Cloning dotfiles"
-  hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/dotfiles.git $DOTFILES_ROOT || {
-    fail "git not installed"
+  # Check for git
+  if test ! $(which git)
+  then
+    fail "Git not found, please verify git is installed"
     exit
-  }
+  fi
+
+  info "Cloning dotfiles"
+  env git clone --depth=1 https://github.com/burnsra/dotfiles.git $DOTFILES_ROOT
 
   info "Cloning oh-my-zsh"
-  hash git >/dev/null 2>&1 && env git clone --depth=1 https://github.com/burnsra/oh-my-zsh.git $ZSH_ROOT || {
-    fail "git not installed"
-    exit
-  }
+  env git clone --depth=1 https://github.com/burnsra/oh-my-zsh.git $ZSH_ROOT
 }
 
 install_dotfiles
